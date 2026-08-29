@@ -30,40 +30,91 @@ loadVehicles()
 }, [])
 
 const waiting = vehicles.filter(v => v.status === 'En attente').length
-  const inProgress = vehicles.filter(v => v.status === 'En cours').length
+const inProgress = vehicles.filter(v => v.status === 'En cours').length
 const painting = vehicles.filter(v => v.status === 'En peinture').length
 const finished = vehicles.filter(v => v.status === 'Terminé').length
-
 return (
-<div className="main">
-<h1>Tableau de bord</h1>
-<p>Redline Carrosserie</p>
+<div className="shell">
+<aside className="sidebar">
+<img className="logo" src="/logo-redline.png" alt="Redline Carrosserie" />
 
-<div className="cards">
-<div className="card"><b>{waiting}</b><p>En attente</p></div>
-<div className="card"><b>{inProgress}</b><p>En cours</p></div>
-<div className="card"><b>{painting}</b><p>En peinture</p></div>
-<div className="card"><b>{finished}</b><p>Terminés</p></div>
+<nav className="nav">
+<Link className="active" href="/dashboard">Accueil</Link>
+<Link href="/vehicles/new">Nouveau véhicule</Link>
+<Link href="/search">Recherche</Link>
+</nav>
+</aside>
+
+<main className="main">
+<div className="topbar">
+<div>
+<h1>Tableau de bord</h1>
+<div className="muted">Redline Carrosserie</div>
 </div>
 
+<Link className="btn btn-primary" href="/vehicles/new">
++ Nouveau véhicule
+</Link>
+</div>
+
+<div className="cards">
+<div className="card">
+<div className="metric">{waiting}</div>
+<div className="muted">En attente</div>
+</div>
+
+<div className="card">
+<div className="metric">{inProgress}</div>
+<div className="muted">En cours</div>
+</div>
+
+<div className="card">
+<div className="metric">{painting}</div>
+<div className="muted">En peinture</div>
+</div>
+
+<div className="card">
+<div className="metric">{finished}</div>
+<div className="muted">Terminés</div>
+</div>
+</div>
+
+<div className="card">
 <h2>Véhicules</h2>
 
 {loading ? (
 <p>Chargement...</p>
+) : vehicles.length === 0 ? (
+<p>Aucun véhicule enregistré.</p>
 ) : (
-vehicles.map(vehicle => (
-<div className="card" key={vehicle.id}>
+<table className="table">
+<thead>
+<tr>
+<th>Immatriculation</th>
+<th>Véhicule</th>
+<th>Statut</th>
+</tr>
+</thead>
+
+<tbody>
+{vehicles.map(vehicle => (
+<tr key={vehicle.id}>
+<td>
 <Link href={`/vehicles/${vehicle.id}`}>
 <b>{vehicle.plate}</b>
 </Link>
-<p>{vehicle.brand} {vehicle.model}</p>
-<p>{vehicle.status}</p>
-</div>
-))
+</td>
+<td>{vehicle.brand} {vehicle.model}</td>
+<td>
+<span className="badge red">{vehicle.status}</span>
+</td>
+</tr>
+))}
+</tbody>
+</table>
 )}
-
-<br />
-<Link href="/vehicles/new">+ Nouveau véhicule</Link>
+</div>
+</main>
 </div>
 )
 }
