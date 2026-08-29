@@ -148,6 +148,7 @@ onChange={(e) => changeStatus(e.target.value)}
 <>
   <td>
 <input
+  style={{ width: '120px' }}
 value={editingTask.condition_before || ''}
 onChange={(e) =>
 setEditingTask({
@@ -170,6 +171,7 @@ condition_before: e.target.value
 </td> 
 <td>
 <input
+  style={{ width: '100px' }}
 value={editingTask.zone || ''}
 onChange={(e) =>
 setEditingTask({ ...editingTask, zone: e.target.value })
@@ -179,6 +181,7 @@ setEditingTask({ ...editingTask, zone: e.target.value })
 
 <td>
 <input
+  style={{ width: '160px' }}
 value={editingTask.work || ''}
 onChange={(e) =>
 setEditingTask({ ...editingTask, work: e.target.value })
