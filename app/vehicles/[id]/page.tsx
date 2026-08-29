@@ -54,7 +54,7 @@ return (
 </h2>
 
 <p><strong>Client :</strong> {vehicle.client_name || '-'}</p>
-<p><strong>Téléphone :</strong> {vehicle.phone || '-'
+<p><strong>Téléphone :</strong> {vehicle.phone || '-'}</p>
 <p><strong>Kilométrage :</strong> {vehicle.mileage || '-'}</p>
 <p><strong>Assurance :</strong> {vehicle.insurance || '-'}</p>
 <p><strong>N° sinistre :</strong> {vehicle.claim_number || '-'}</p>
