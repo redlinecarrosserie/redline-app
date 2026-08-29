@@ -11,6 +11,7 @@ const id = params.id as string
 
 const [vehicle, setVehicle] = useState<any>(null)
 const [tasks, setTasks] = useState<any[]>([])
+  const [editingTask, setEditingTask] = useState<any>(null)
 const [loading, setLoading] = useState(true)
 
 useEffect(() => {
@@ -33,6 +34,23 @@ setLoading(false)
 
 if (id) loadVehicle()
 }, [id])
+ async function saveTask(task: any) {
+const { error } = await supabase
+.from('repair_tasks')
+.update({
+zone: task.zone,
+work: task.work,
+priority: task.priority,
+status: task.status
+})
+.eq('id', task.id)
+
+if (!error) {
+setTasks(tasks.map(t => t.id === task.id ? task : t))
+setEditingTask(null)
+}
+}
+
   if (loading) {
 return <div className="main">Chargement...</div>
 }
@@ -116,16 +134,85 @@ onChange={(e) => changeStatus(e.target.value)}
 <th>Travail</th>
 <th>Priorité</th>
 <th>Statut</th>
+  <th>Action</th>
 </tr>
 </thead>
 
 <tbody>
 {tasks.map(task => (
 <tr key={task.id}>
+  {editingTask?.id === task.id ? (
+<>
+<td>
+<input
+value={editingTask.zone || ''}
+onChange={(e) =>
+setEditingTask({ ...editingTask, zone: e.target.value })
+}
+/>
+</td>
+
+<td>
+<input
+value={editingTask.work || ''}
+onChange={(e) =>
+setEditingTask({ ...editingTask, work: e.target.value })
+}
+/>
+</td>
+
+<td>
+<select
+value={editingTask.priority || 'Moyenne'}
+onChange={(e) =>
+setEditingTask({ ...editingTask, priority: e.target.value })
+}
+>
+<option value="Basse">Basse</option>
+<option value="Moyenne">Moyenne</option>
+<option value="Haute">Haute</option>
+</select>
+</td>
+
+<td>
+<select
+value={editingTask.status || 'À faire'}
+onChange={(e) =>
+setEditingTask({ ...editingTask, status: e.target.value })
+}
+>
+<option value="À faire">À faire</option>
+<option value="En cours">En cours</option>
+<option value="Terminé">Terminé</option>
+</select>
+</td>
+</>
+) : (
+<>
 <td>{task.zone}</td>
 <td>{task.work}</td>
 <td>{task.priority}</td>
 <td>{task.status}</td>
+</>
+)}
+<td>
+{editingTask?.id === task.id ? (
+<>
+<button onClick={() => saveTask(editingTask)}>
+Enregistrer
+</button>
+<button onClick={() => setEditingTask(null)}>
+Annuler
+</button>
+</>
+) : (
+<button onClick={() => setEditingTask({ ...task })}>
+Modifier
+</button>
+)}
+</td>
+
+
 </tr>
 ))}
 </tbody>
