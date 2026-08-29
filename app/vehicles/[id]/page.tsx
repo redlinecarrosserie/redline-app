@@ -1,37 +1,57 @@
 'use client'
 
 import Link from 'next/link'
-
 import { useEffect, useState } from 'react'
-
 import { useParams } from 'next/navigation'
-
 import { supabase } from '@/lib/supabaseClient'
 
 export default function VehiclePage() {
+const params = useParams()
+const id = params.id as string
 
-  const params = useParams()
+const [vehicle, setVehicle] = useState<any>(null)
+const [tasks, setTasks] = useState<any[]>([])
+const [loading, setLoading] = useState(true)
 
-  const id = params.id as string
+useEffect(() => {
+async function loadVehicle() {
+const { data: vehicleData } = await supabase
+.from('vehicles')
+.select('*')
+.eq('id', id)
+.single()
 
-  const [vehicle, setVehicle] = useState<any>(null)
+setVehicle(vehicleData)
 
-  const [tasks, setTasks] = useState<any[]>([])
+const { data: taskData } = await supabase
+.from('repair_tasks')
+.select('*')
+.eq('vehicle_id', id)
 
-  const [loading, setLoading] = useState(true)
+setTasks(taskData || [])
+setLoading(false)
+}
 
-  useEffect(() => {
+if (id) loadVehicle()
+}, [id])
 
-    async function loadVehicle() {
+if (loading) {
+return <div style={{ padding: 30 }}>Chargement...</div>
+}
 
-      const { data: vehicleData } = await supabase
+if (!vehicle) {
+return <div style={{ padding: 30 }}>Véhicule introuvable.</div>
+}
 
-        .from('vehicles')
+return (
+<div style={{ padding: 30 }}>
+<Link href="/dashboard">← Retour au tableau de bord</Link>
 
-        .select('*')
+<h1>{vehicle.plate}</h1>
 
-        .eq('id', id)
+<h2>
+{vehicle.brand} {vehicle.model}
+</h2>
 
-        .single()
-
-      const { data: taskData } = await supabase
+<p><strong>Client :</strong> {vehicle.client_name || '-'}</p>
+<p><strong>Téléphone :</strong> {vehicle.phone || '-'
