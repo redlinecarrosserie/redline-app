@@ -59,6 +59,27 @@ return (
 <p><strong>Assurance :</strong> {vehicle.insurance || '-'}</p>
 <p><strong>N° sinistre :</strong> {vehicle.claim_number || '-'}</p>
 <p><strong>Statut :</strong> {vehicle.status || 'En attente'}</p>
+  <select
+value={vehicle.status || 'En attente'}
+onChange={async (e) => {
+const newStatus = e.target.value
+
+const { error } = await supabase
+.from('vehicles')
+.update({ status: newStatus })
+.eq('id', id)
+
+if (!error) {
+setVehicle({ ...vehicle, status: newStatus })
+}
+}}
+>
+<option value="En attente">En attente</option>
+<option value="En cours">En cours</option>
+<option value="En peinture">En peinture</option>
+<option value="Terminé">Terminé</option>
+</select>
+
 </div>
 )
 }
