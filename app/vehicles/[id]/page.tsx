@@ -38,7 +38,8 @@ if (id) loadVehicle()
 const { error } = await supabase
 .from('repair_tasks')
 .update({
-zone: task.zone,
+condition_before: task.condition_before,
+  zone: task.zone,
 work: task.work,
 priority: task.priority,
 status: task.status
@@ -130,7 +131,8 @@ onChange={(e) => changeStatus(e.target.value)}
 <table className="table">
 <thead>
 <tr>
-<th>Zone</th>
+<th>État avant réparations</th>
+  <th>Zone</th>
 <th>Travail</th>
 <th>Priorité</th>
 <th>Statut</th>
@@ -141,8 +143,31 @@ onChange={(e) => changeStatus(e.target.value)}
 <tbody>
 {tasks.map(task => (
 <tr key={task.id}>
+
   {editingTask?.id === task.id ? (
 <>
+  <td>
+<input
+value={editingTask.condition_before || ''}
+onChange={(e) =>
+setEditingTask({
+...editingTask,
+condition_before: e.target.value
+})
+}
+/>
+</td>
+ <td>
+<input
+value={editingTask.condition_before || ''}
+onChange={(e) =>
+setEditingTask({
+...editingTask,
+condition_before: e.target.value
+})
+}
+/>
+</td> 
 <td>
 <input
 value={editingTask.zone || ''}
@@ -188,7 +213,8 @@ setEditingTask({ ...editingTask, status: e.target.value })
 </td>
 </>
 ) : (
-<>
+  <>
+<td>{task.condition_before || '-'}</td>
 <td>{task.zone}</td>
 <td>{task.work}</td>
 <td>{task.priority}</td>
