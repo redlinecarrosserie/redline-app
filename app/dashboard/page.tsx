@@ -1,112 +1,38 @@
 'use client'
 
 import Link from 'next/link'
+
 import { useEffect, useState } from 'react'
+
 import { supabase } from '../../lib/supabaseClient'
 
 type Vehicle = {
-id: string
-plate: string
-brand: string | null
-model: string | null
-status: string
+
+  id: string
+
+  plate: string
+
+  brand: string | null
+
+  model: string | null
+
+  status: string
+
 }
 
 export default function Dashboard() {
-const [vehicles, setVehicles] = useState<Vehicle[]>([])
-const [loading, setLoading] = useState(true)
 
-useEffect(() => {
-async function loadVehicles() {
-const { data } = await supabase
-.from('vehicles')
-.select('id, plate, brand, model, status')
-.order('created_at', { ascending: false })
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
 
-setVehicles(data || [])
-setLoading(false)
-}
+  const [loading, setLoading] = useState(true)
 
-loadVehicles()
-}, [])
+  useEffect(() => {
 
-const waiting = vehicles.filter(v => v.status === 'En attente').length
-const inProgress = vehicles.filter(v => v.status === 'En cours').length
-const painting = vehicles.filter(v => v.status === 'En peinture').length
-const finished = vehicles.filter(v => v.status === 'Terminé').length
+    async function loadVehicles() {
 
-return (
-<div className="shell">
-<aside className="sidebar">
-<img className="logo" src="/logo-redline.png" alt="Redline" />
-<nav className="nav">
-<Link className="active" href="/dashboard">Accueil</Link>
-<Link href="/vehicles/new">Nouveau véhicule</Link>
-<Link href="/search">Recherche</Link>
-</nav>
-</aside>
+      const { data } = await supabase
 
-<main className="main">
-<div className="topbar">
-<div>
-<h1>Tableau de bord</h1>
-<div className="muted">Redline Carrosserie</div>
-</div>
-<Link className="btn btn-primary" href="/vehicles/new">
-+ Nouveau véhicule
-</Link>
-</div>
+        .from('vehicles')
 
-<div className="cards">
-<div className="card">
-<div className="metric">{waiting}</div>
-<div className="muted">En attente</div>
-</div>
-<div className="card">
-<div className="metric">{inProgress}</div>
-<div className="muted">En cours</div>
-</div>
-<div className="card">
-<div className="metric">{painting}</div>
-<div className="muted">En peinture</div>
-</div>
-<div className="card">
-<div className="metric">{finished}</div>
-<div className="muted">Terminés</div>
-</div>
-</div>
+        .select('id, plate, brand, model, status')
 
-<div className="card">
-<h2>Véhicules</h2>
-
-{loading ? (
-<p>Chargement...</p>
-) : vehicles.length === 0 ? (
-<p>Aucun véhicule enregistré.</p>
-) : (
-<table className="table">
-<thead>
-<tr>
-<th>Immatriculation</th>
-<th>Véhicule</th>
-<th>Statut</th>
-</tr>
-</thead>
-<tbody>
-{vehicles.map(vehicle => (
-<tr key={vehicle.id}>
-<td><b>{vehicle.plate}</b></td>
-<td>{vehicle.brand} {vehicle.model}</td>
-<td>
-<span className="badge red">{vehicle.status}</span>
-</td>
-</tr>
-))}
-</tbody>
-</table>
-)}
-</div>
-</main>
-</div>
-)
-}
