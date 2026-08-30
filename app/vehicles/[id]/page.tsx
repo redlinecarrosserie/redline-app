@@ -107,11 +107,13 @@ return <div className="main">Chargement...</div>
 if (!vehicle) {
 return <div className="main">Véhicule introuvable.</div>
 }
+const [statusDate, setStatusDate] = useState('')
 
 async function changeStatus(newStatus: string) {
 const { error } = await supabase
 .from('vehicles')
-.update({ status: newStatus })
+.update({ status: newStatus, status_date: statusDate || null })
+
 .eq('id', id)
 
 if (!error) {
@@ -177,11 +179,17 @@ Fiche de suivi
 value={vehicle.status || 'En attente'}
 onChange={(e) => changeStatus(e.target.value)}
 >
+  <option value="À venir">À venir</option>
 <option value="En attente">En attente</option>
 <option value="En cours">En cours</option>
 <option value="En peinture">En peinture</option>
 <option value="Terminé">Terminé</option>
 </select>
+  <input
+type="date"
+value={statusDate}
+onChange={(e) => setStatusDate(e.target.value)}
+/>
 </div>
 <div className="card">
 <h2>Travaux à effectuer</h2>
