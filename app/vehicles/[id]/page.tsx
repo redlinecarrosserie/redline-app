@@ -215,7 +215,7 @@ condition_before: e.target.value
 />
 </td>
 
-
+<td>
 <input
   style={{ width: '140px' }}
 value={editingTask.work || ''}
