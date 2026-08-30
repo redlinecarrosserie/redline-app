@@ -40,7 +40,10 @@ return (
 <h1>Fiche de suivi véhicule</h1>
 
 <h2>Identification</h2>
-<p><strong>Client :</strong> {vehicle.client_name || '-'}</p>
+<p><strong>Nom et prénom :</strong> {vehicle.client_name || '-'}</p>
+  <p><strong>Mail :</strong> {vehicle.email || '-'}</p>
+  <p><strong>Cabinet d’expertise :</strong> {vehicle.expertise_cabinet || '-'}</p>
+
 <p><strong>Téléphone :</strong> {vehicle.phone || '-'}</p>
 <p><strong>Véhicule :</strong> {vehicle.brand} {vehicle.model}</p>
 <p><strong>Immatriculation :</strong> {vehicle.plate}</p>
