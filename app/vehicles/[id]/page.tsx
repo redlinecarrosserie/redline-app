@@ -188,7 +188,7 @@ onChange={(e) => changeStatus(e.target.value)}
 <thead>
 <tr>
 <th>État avant réparations</th>
-  <th>Zone</th>
+  
 <th>Travail</th>
 <th>Priorité</th>
 <th>Statut</th>
@@ -214,28 +214,8 @@ condition_before: e.target.value
 }
 />
 </td>
- <td>
-<input
-value={editingTask.zone || ''}
-onChange={(e) =>
-setEditingTask({
-...editingTask,
-zone: e.target.value
-})
-}
-/>
-</td> 
-<td>
-<input
-  style={{ width: '140px' }}
-value={editingTask.zone || ''}
-onChange={(e) =>
-setEditingTask({ ...editingTask, zone: e.target.value })
-}
-/>
-</td>
 
-<td>
+
 <input
   style={{ width: '140px' }}
 value={editingTask.work || ''}
