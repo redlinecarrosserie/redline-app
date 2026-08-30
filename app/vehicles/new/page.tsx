@@ -9,9 +9,12 @@ export default function NewVehicle(){
  const [saving,setSaving]=useState(false)
  function addTask(){setTasks([...tasks,{zone:'',work:'',priority:'Moyenne'}])}
  function updateTask(i:number,k:keyof Task,v:string){setTasks(tasks.map((t,idx)=>idx===i?{...t,[k]:v}:t))}
- async function submit
-  if (saving) return
-setSaving(true)(e:FormEvent<HTMLFormElement>){e.preventDefault(); setMsg(''); const fd=new FormData(e.currentTarget); const payload={plate:String(fd.get('plate')||'').toUpperCase(),brand:String(fd.get('brand')||''),model:String(fd.get('model')||''),client_name:String(fd.get('client_name')||''),phone:String(fd.get('phone')||''),mileage:Number(fd.get('mileage')||0),insurance:String(fd.get('insurance')||''),claim_number:String(fd.get('claim_number')||''),entry_date:fd.get('entry_date')||null,status:'En attente'}
+ async function submit(e:FormEvent<HTMLFormElement>){
+if (saving) return
+setSaving(true)
+  
+
+ e.preventDefault(); setMsg(''); const fd=new FormData(e.currentTarget); const payload={plate:String(fd.get('plate')||'').toUpperCase(),brand:String(fd.get('brand')||''),model:String(fd.get('model')||''),client_name:String(fd.get('client_name')||''),phone:String(fd.get('phone')||''),mileage:Number(fd.get('mileage')||0),insurance:String(fd.get('insurance')||''),claim_number:String(fd.get('claim_number')||''),entry_date:fd.get('entry_date')||null,status:'En attente'}
    if(!supabaseConfigured){localStorage.setItem('redline-demo-vehicle',JSON.stringify({...payload,tasks}));setMsg('Dossier enregistré en mode démonstration.');return}
    const {data,error}=await supabase.from('vehicles').insert(payload).select('id').single(); if(error){setSaving(false)setMsg('Erreur: '+error.message);return}
    if(data && tasks.length){await supabase.from('repair_tasks').insert(tasks.filter(t=>t.zone&&t.work).map(t=>({vehicle_id:data.id,zone:t.zone,work:t.work,priority:t.priority,status:'À faire'})))}
