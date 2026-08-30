@@ -58,6 +58,10 @@ plate: String(fd.get('plate') || '').toUpperCase(),
 brand: String(fd.get('brand') || ''),
 model: String(fd.get('model') || ''),
 client_name: String(fd.get('client_name') || ''),
+ email: String(fd.get('email') || ''),
+ expertise_cabinet: String(fd.get('expertise_cabinet') || ''),
+client_address: String(fd.get('client_address') || ''),
+
 phone: String(fd.get('phone') || ''),
 mileage: Number(fd.get('mileage') || 0),
 insurance: String(fd.get('insurance') || ''),
@@ -141,15 +145,25 @@ Modèle
 </label>
 
 <label>
-Client
+Nom et prénom
 <input name="client_name" required />
 </label>
-
+<label>
+Mail
+<input name="email" type="email" />
+</label>
+ <label>
+Adresse du client
+<input name="client_address" />
+</label>
 <label>
 Téléphone
 <input name="phone" />
 </label>
-
+<label>
+Cabinet d’expertise
+<input name="expertise_cabinet" />
+</label>
 <label>
 Kilométrage
 <input name="mileage" type="number" />
