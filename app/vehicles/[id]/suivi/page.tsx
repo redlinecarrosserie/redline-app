@@ -42,6 +42,8 @@ return (
 <h2>Identification</h2>
 <p><strong>Nom et prénom :</strong> {vehicle.client_name || '-'}</p>
   <p><strong>Mail :</strong> {vehicle.email || '-'}</p>
+  <p><strong>Adresse du client :</strong> {vehicle.client_address || '-'}</p>
+
   <p><strong>Cabinet d’expertise :</strong> {vehicle.expertise_cabinet || '-'}</p>
 
 <p><strong>Téléphone :</strong> {vehicle.phone || '-'}</p>
