@@ -216,11 +216,11 @@ condition_before: e.target.value
 </td>
  <td>
 <input
-value={editingTask.condition_before || ''}
+value={editingTask.zone || ''}
 onChange={(e) =>
 setEditingTask({
 ...editingTask,
-condition_before: e.target.value
+zone: e.target.value
 })
 }
 />
