@@ -155,7 +155,12 @@ disabled={deleting}
 ← Retour
 </Link>
 </div>
-
+<Link
+className="btn btn-primary"
+href={`/vehicles/${id}/suivi`}
+>
+Fiche de suivi
+</Link>
 <div className="card">
 <h2>Informations véhicule</h2>
 
