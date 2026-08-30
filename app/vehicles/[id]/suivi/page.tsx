@@ -83,16 +83,50 @@ return (
 <p>Désignation — Fournisseur — Commandé le — Livraison prévue — Reçu le</p>
 </div>
 
+
 <div className="card">
 <h2>Déroulement des opérations</h2>
-<p>☐ 1. Démontage</p>
-<p>☐ 2. Redressage / Soudure</p>
-<p>☐ 3. Préparation</p>
-<p>☐ 4. Masquage</p>
-<p>☐ 5. Peinture cabine</p>
-<p>☐ 6. Vernis / Finition</p>
-<p>☐ 7. Remontage</p>
-<p>☐ 8. Contrôle qualité</p>
+
+<table className="table">
+<thead>
+<tr>
+<th>✓</th>
+<th>Opération</th>
+<th>Métier</th>
+<th>Date</th>
+<th>Par</th>
+</tr>
+</thead>
+
+<tbody>
+{[
+['1. DÉMONTAGE', 'Carrossier'],
+['2. REDRESSAGE / SOUDURE', 'Carrossier'],
+['3. PRÉPARATION', 'Préparateur'],
+['4. MASQUAGE', 'Préparateur'],
+['5. PEINTURE CABINE', 'Peintre'],
+['6. VERNIS / FINITION', 'Peintre'],
+['7. REMONTAGE', 'Carrossier'],
+['8. FINITIONS', 'Carrossier'],
+['9. NETTOYAGE', 'Préparateur'],
+['10. CONTRÔLE QUALITÉ', 'Gérant'],
+].map(([operation, metier]) => (
+<tr key={operation}>
+<td>
+<input type="checkbox" />
+</td>
+<td><strong>{operation}</strong></td>
+<td>{metier}</td>
+<td>
+<input type="date" />
+</td>
+<td>
+<input type="text" placeholder="Nom" />
+</td>
+</tr>
+))}
+</tbody>
+</table>
 </div>
 
 <div className="card">
