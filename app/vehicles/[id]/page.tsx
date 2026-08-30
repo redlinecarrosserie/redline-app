@@ -14,6 +14,8 @@ const [tasks, setTasks] = useState<any[]>([])
   const [editingTask, setEditingTask] = useState<any>(null)
 const [loading, setLoading] = useState(true)
 const [deleting, setDeleting] = useState(false)
+  const [statusDate, setStatusDate] = useState('')
+
 useEffect(() => {
 async function deleteVehicle() {
 if (!confirm('Supprimer définitivement ce véhicule ?')) return
@@ -52,6 +54,9 @@ const { data: taskData } = await supabase
 .eq('vehicle_id', id)
 
 setVehicle(vehicleData)
+    setStatusDate(vehicleData?.arrival_date || '')
+
+
 setTasks(taskData || [])
 setLoading(false)
 }
@@ -107,12 +112,13 @@ return <div className="main">Chargement...</div>
 if (!vehicle) {
 return <div className="main">Véhicule introuvable.</div>
 }
-const [statusDate, setStatusDate] = useState('')
+
 
 async function changeStatus(newStatus: string) {
 const { error } = await supabase
 .from('vehicles')
-.update({ status: newStatus, status_date: statusDate || null })
+.update({ status: newStatus, arrival_date: statusDate || null
+ })
 
 .eq('id', id)
 
