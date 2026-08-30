@@ -11,7 +11,7 @@ export default function NewVehicle(){
  function updateTask(i:number,k:keyof Task,v:string){setTasks(tasks.map((t,idx)=>idx===i?{...t,[k]:v}:t))}
  async function submit(e:FormEvent<HTMLFormElement>){
 if (saving) return
-setSaving(true)
+
   
 
  e.preventDefault(); setMsg(''); const fd=new FormData(e.currentTarget); const payload={plate:String(fd.get('plate')||'').toUpperCase(),brand:String(fd.get('brand')||''),model:String(fd.get('model')||''),client_name:String(fd.get('client_name')||''),phone:String(fd.get('phone')||''),mileage:Number(fd.get('mileage')||0),insurance:String(fd.get('insurance')||''),claim_number:String(fd.get('claim_number')||''),entry_date:fd.get('entry_date')||null,status:'En attente'}
