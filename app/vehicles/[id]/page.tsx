@@ -13,9 +13,33 @@ const [vehicle, setVehicle] = useState<any>(null)
 const [tasks, setTasks] = useState<any[]>([])
   const [editingTask, setEditingTask] = useState<any>(null)
 const [loading, setLoading] = useState(true)
-
+const [deleting, setDeleting] = useState(false)
 useEffect(() => {
-async function loadVehicle() {
+async function deleteVehicle() {
+if (!confirm('Supprimer définitivement ce véhicule ?')) return
+
+setDeleting(true)
+
+await supabase
+.from('repair_tasks')
+.delete()
+.eq('vehicle_id', id)
+
+const { error } = await supabase
+.from('vehicles')
+.delete()
+.eq('id', id)
+
+if (error) {
+alert('Erreur : ' + error.message)
+setDeleting(false)
+return
+}
+
+window.location.href = '/dashboard'
+}
+
+  async function loadVehicle() {
 const { data: vehicleData } = await supabase
 .from('vehicles')
 .select('*')
@@ -34,7 +58,31 @@ setLoading(false)
 
 if (id) loadVehicle()
 }, [id])
- async function saveTask(task: any) {
+ async function deleteVehicle() {
+if (!confirm('Supprimer définitivement ce véhicule ?')) return
+
+setDeleting(true)
+
+await supabase
+.from('repair_tasks')
+.delete()
+.eq('vehicle_id', id)
+
+const { error } = await supabase
+.from('vehicles')
+.delete()
+.eq('id', id)
+
+if (error) {
+alert('Erreur : ' + error.message)
+setDeleting(false)
+return
+}
+
+window.location.href = '/dashboard'
+}
+
+  async function saveTask(task: any) {
 const { error } = await supabase
 .from('repair_tasks')
 .update({
@@ -89,6 +137,13 @@ alt="Redline Carrosserie"
 <main className="main">
 <div className="topbar">
 <div>
+  <button
+type="button"
+className="btn"
+onClick={deleteVehicle}
+disabled={deleting}
+>
+{deleting ? 'Suppression...' : 'Supprimer le véhicule'}
 <h1>{vehicle.plate}</h1>
 <div className="muted">
 {vehicle.brand} {vehicle.model}
