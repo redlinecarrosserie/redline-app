@@ -144,6 +144,7 @@ onClick={deleteVehicle}
 disabled={deleting}
 >
 {deleting ? 'Suppression...' : 'Supprimer le véhicule'}
+    </button>
 <h1>{vehicle.plate}</h1>
 <div className="muted">
 {vehicle.brand} {vehicle.model}
