@@ -81,7 +81,7 @@ return (
 <p>☐ 9 — Bas de caisse gauche</p>
 <p>☐ 10 — Bas de caisse droit</p>
 <p>☐ 11 — Pavillon</p>
-  <p>□ 12 - Porte (AVD)</p>
+ <p>☐ 12 - Porte (AVD)</p>
 <p>□ 13 - Porte (AVG)</p>
 <p>□ 14 - Porte (ARD)</p>
 <p>□ 15 - Porte (ARG)</p>
