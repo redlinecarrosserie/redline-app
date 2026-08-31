@@ -91,7 +91,30 @@ src="/unnamed.jpg"
 alt="Schéma véhicule"
 style={{ width: '100%', display: 'block' }}
 />
+  {schemaZones.map((zone) => (
+<div
+key={zone.number}
+style={{
+position: 'absolute',
+left: `${zone.x}%`,
+top: `${zone.y}%`,
+width: '28px',
+height: '28px',
+borderRadius: '50%',
+background: 'red',
+color: 'white',
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'center',
+fontWeight: 'bold',
+}}
+>
+{zone.number}
 </div>
+))}
+
+</div>
+
 
 <h2>Croquis véhicule — Zones à réparer</h2>
 <p>☐ 1 — Capot</p>
