@@ -92,7 +92,7 @@ return (
 <p>☐ 20 - Coque de rétroviseur (droite)</p>
 <p>☐ 21 - Jante (AVD)</p>
 <p>☐ 22 - Jante (AVG)</p>
-<p☐ 23 - Jante (ARG)</p>
+<p>☐ 23 - Jante (ARG)</p>
 <p>☐ 24 - Jante (ARD)</p>
 
 <p><strong>Observation :</strong></p>
