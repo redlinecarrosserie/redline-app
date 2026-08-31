@@ -104,6 +104,7 @@ toggleSchemaZone(schemaZones.length + 1, x, y)
 />
  {schemaZones.map((zone) => (
 <div
+ onClick={(e) => { e.stopPropagation(); toggleSchemaZone(zone.number, zone.x, zone.y) }} 
 key={zone.number}
 style={{
 position: 'absolute',
@@ -119,7 +120,8 @@ display: 'flex',
 alignItems: 'center',
 justifyContent: 'center',
 fontWeight: 'bold',
-pointerEvents: 'none',
+cursor: 'pointer',
+  zIndex: 10,
 }}
 >
 {zone.number}
