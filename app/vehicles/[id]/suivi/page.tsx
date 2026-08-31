@@ -11,6 +11,8 @@ const id = params.id as string
 
 const [vehicle, setVehicle] = useState<any>(null)
   const [schemaZones, setSchemaZones] = useState<{ number: number; x: number; y: number }[]>([])
+  const [suiviData, setSuiviData] = useState<any>({})
+
 
 const [loading, setLoading] = useState(true)
 
@@ -24,6 +26,8 @@ const { data } = await supabase
 
 setVehicle(data)
   setSchemaZones(data?.schema_zones || [])
+  setSuiviData(data?.suivi_data || {})
+
 setLoading(false)
 }
 
@@ -44,6 +48,11 @@ await supabase
 .eq('id', id)
 }
 
+  async function updateSuiviData(key: string, value: any) {
+const updatedData = {
+...suiviData,
+[key]: value,
+}
 
 if (loading) return <div className="main">Chargement...</div>
 if (!vehicle) return <div className="main">Véhicule introuvable.</div>
@@ -76,14 +85,35 @@ return (
 
 <div className="card">
 <h2>État à l’arrivée</h2>
-<p>☐ Carrosserie OK</p>
-<p>☐ Intérieur OK</p>
-<p>☐ Accessoires OK</p>
-<p>☐ Centralisation OK</p>
-<p>☐ Radars avant / arrière OK</p>
-<p>☐ Éclairage OK</p>
-<p>☐ Anomalies tableau de bord</p>
-<p><strong>Observations :</strong></p>
+{[
+['carrosserie', 'Carrosserie OK'],
+['interieur', 'Intérieur OK'],
+['accessoires', 'Accessoires OK'],
+['centralisation', 'Centralisation OK'],
+['radars', 'Radars avant / arrière OK'],
+['eclairage', 'Éclairage OK'],
+['tableau_bord', 'Anomalies tableau de bord'],
+].map(([key, label]) => (
+<label key={key} style={{ display: 'block' }}>
+<input
+type="checkbox"
+checked={!!suiviData[key]}
+onChange={(e) => updateSuiviData(key, e.target.checked)}
+/>{' '}
+{label}
+</label>
+))}
+  <p><strong>Observations :</strong></p>
+  <textarea
+value={suiviData.observations || ''}
+onChange={(e) => updateSuiviData('observations', e.target.value)}
+placeholder="Écrire une observation..."
+rows={4}
+style={{ width: '100%' }}
+/>
+
+
+
 </div>
 
 <div className="card">
@@ -133,33 +163,56 @@ cursor: 'pointer',
 
 
 <h2>Croquis véhicule — Zones à réparer</h2>
-<p>☐ 1 — Capot</p>
-<p>☐ 2 — Pare-chocs avant</p>
-<p>☐ 3 — Aile avant gauche</p>
-<p>☐ 4 — Aile avant droite</p>
-<p>☐ 5 — Aile arrière gauche</p>
-<p>☐ 6 — Aile arrière droite</p>
-<p>☐ 7 — Hayon / Coffre</p>
-<p>☐ 8 — Pare-chocs arrière</p>
-<p>☐ 9 — Bas de caisse gauche</p>
-<p>☐ 10 — Bas de caisse droit</p>
-<p>☐ 11 — Pavillon</p>
- <p>☐ 12 - Porte (AVD)</p>
-<p>☐ 13 - Porte (AVG)</p>
-<p>☐ 14 - Porte (ARD)</p>
-<p>☐ 15 - Porte (ARG)</p>
-<p>☐ 16 - Montant (gauche)</p>
-<p>☐ 17 - Montant (droit)</p>
-<p>☐ 18 - Remplacement pare-brise</p>
-<p>☐ 19 - Coque de rétroviseur (gauche)</p>
-<p>☐ 20 - Coque de rétroviseur (droite)</p>
-<p>☐ 21 - Jante (AVD)</p>
-<p>☐ 22 - Jante (AVG)</p>
-<p>☐ 23 - Jante (ARG)</p>
-<p>☐ 24 - Jante (ARD)</p>
+{[
+'Capot',
+'Pare-chocs avant',
+'Aile avant gauche',
+'Aile avant droite',
+'Aile arrière gauche',
+'Aile arrière droite',
+'Hayon / Coffre',
+'Pare-chocs arrière',
+'Bas de caisse gauche',
+'Bas de caisse droit',
+'Pavillon',
+'Porte (AVD)',
+'Porte (AVG)',
+'Porte (ARD)',
+'Porte (ARG)',
+'Montant (gauche)',
+'Montant (droit)',
+'Remplacement pare-brise',
+'Coque de rétroviseur (gauche)',
+'Coque de rétroviseur (droite)',
+'Jante (AVD)',
+'Jante (AVG)',
+'Jante (ARG)',
+'Jante (ARD)',
+].map((label, index) => {
+const key = `zone_${index + 1}`
+
+return (
+<label key={key} style={{ display: 'block' }}>
+<input
+type="checkbox"
+checked={!!suiviData[key]}
+onChange={(e) => updateSuiviData(key, e.target.checked)}
+/>{' '}
+{index + 1} {label}
+</label>
+)
+})}
+
 
 <p><strong>Observation :</strong></p>
-<textarea placeholder="Écrire une observation..." rows={4} style={{ width: '100%' }} />
+<textarea
+value={suiviData.croquis_observation || ''}
+onChange={(e) => updateSuiviData('croquis_observation', e.target.value)}
+placeholder="Écrire une observation..."
+rows={4}
+style={{ width: '100%' }}
+/>
+
 
 </div>
 
@@ -198,15 +251,29 @@ cursor: 'pointer',
 ].map(([operation, metier]) => (
 <tr key={operation}>
 <td>
-<input type="checkbox" />
+<input
+type="checkbox"
+checked={!!suiviData[`operation_${operation}`]}
+onChange={(e) => updateSuiviData(`operation_${operation}`, e.target.checked)}
+/>
 </td>
 <td><strong>{operation}</strong></td>
 <td>{metier}</td>
 <td>
-<input type="date" />
+<input
+type="date"
+value={suiviData[`date_${operation}`] || ''}
+onChange={(e) => updateSuiviData(`date_${operation}`, e.target.value)}
+/>
 </td>
 <td>
-<input type="text" placeholder="Nom" />
+<input
+type="text"
+placeholder="Nom"
+value={suiviData[`par_${operation}`] || ''}
+onChange={(e) => updateSuiviData(`par_${operation}`, e.target.value)}
+/>
+
 </td>
 </tr>
 ))}
@@ -216,32 +283,108 @@ cursor: 'pointer',
 
 <div className="card">
 <h2>Notifications WhatsApp</h2>
-<p>☐ Prise en charge</p>
-<p>☐ Pièce reçue</p>
-<p>☐ Véhicule en cabine de peinture</p>
-<p>☐ Véhicule prêt à livrer</p>
-<p>☐ Satisfaction client</p>
+{[
+['whatsapp_prise_charge', 'Prise en charge'],
+['whatsapp_piece_recue', 'Pièce reçue'],
+['whatsapp_peinture', 'Véhicule en cabine de peinture'],
+['whatsapp_livraison', 'Véhicule prêt à livrer'],
+['whatsapp_satisfaction', 'Satisfaction client'],
+].map(([key, label]) => (
+<label key={key} style={{ display: 'block' }}>
+<input
+type="checkbox"
+checked={!!suiviData[key]}
+onChange={(e) => updateSuiviData(key, e.target.checked)}
+/>{' '}
+{label}
+</label>
+))}
+
 </div>
 
 <div className="card">
 <h2>Contrôle qualité finale</h2>
-<p>☐ Couleur uniforme</p>
-<p>☐ Pièces remontées</p>
-<p>☐ Grain</p>
-<p>☐ Nettoyage intérieur</p>
-<p>☐ Nettoyage extérieur</p>
-<p>☐ Centralisation</p>
-<p>☐ Radar avant et arrière</p>
-<p>☐ Éclairage</p>
+{[
+['qualite_couleur', 'Couleur uniforme'],
+['qualite_brillance', 'Brillance'],
+['qualite_poussieres', 'Absence poussières / défauts'],
+['qualite_raccords', 'Raccords invisibles'],
+['qualite_ajustement', 'Ajustement éléments'],
+['qualite_nettoyage', 'Nettoyage intérieur'],
+['qualite_vitres', 'Vitres propres'],
+['qualite_pneus', 'Pression pneus'],
+['qualite_niveaux', 'Niveaux'],
+['qualite_eclairage', 'Éclairage'],
+].map(([key, label]) => (
+<label key={key} style={{ display: 'block' }}>
+<input
+type="checkbox"
+checked={!!suiviData[key]}
+onChange={(e) => updateSuiviData(key, e.target.checked)}
+/>{' '}
+{label}
+</label>
+))}
+
 </div>
 
 <div className="card">
 <h2>Livraison</h2>
-<p>Date : __________</p>
-<p>Heure : __________</p>
-<p>Montant : __________ €</p>
-<p>Satisfaction : ☐ Très bien &nbsp; ☐ Bien &nbsp; ☐ Moyen &nbsp; ☐ Mauvais</p>
-<p>Signature client : ____________________</p>
+<p>
+Date :{' '}
+<input
+type="date"
+value={suiviData.livraison_date || ''}
+onChange={(e) => updateSuiviData('livraison_date', e.target.value)}
+/>
+</p>
+
+<p>
+Heure :{' '}
+<input
+type="time"
+value={suiviData.livraison_heure || ''}
+onChange={(e) => updateSuiviData('livraison_heure', e.target.value)}
+/>
+</p>
+
+<p>
+Montant :{' '}
+<input
+type="text"
+value={suiviData.livraison_montant || ''}
+onChange={(e) => updateSuiviData('livraison_montant', e.target.value)}
+/> €
+</p>
+
+<p>Satisfaction :</p>
+
+{[
+['satisfaction_tres_bien', 'Très bien'],
+['satisfaction_bien', 'Bien'],
+['satisfaction_moyen', 'Moyen'],
+['satisfaction_mauvais', 'Mauvais'],
+].map(([key, label]) => (
+<label key={key} style={{ marginRight: '20px' }}>
+<input
+type="checkbox"
+checked={!!suiviData[key]}
+onChange={(e) => updateSuiviData(key, e.target.checked)}
+/>{' '}
+{label}
+</label>
+))}
+
+<p>
+Signature client :{' '}
+<input
+type="text"
+value={suiviData.signature_client || ''}
+onChange={(e) => updateSuiviData('signature_client', e.target.value)}
+style={{ width: '300px' }}
+/>
+</p>
+
 </div>
 </div>
 )
