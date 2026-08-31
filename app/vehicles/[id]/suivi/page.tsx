@@ -81,6 +81,22 @@ return (
 <p>☐ 9 — Bas de caisse gauche</p>
 <p>☐ 10 — Bas de caisse droit</p>
 <p>☐ 11 — Pavillon</p>
+  <p>□ 12 - Porte (AVD)</p>
+<p>□ 13 - Porte (AVG)</p>
+<p>□ 14 - Porte (ARD)</p>
+<p>□ 15 - Porte (ARG)</p>
+<p>□ 16 - Montant (gauche)</p>
+<p>□ 17 - Montant (droit)</p>
+<p>□ 18 - Remplacement pare-brise</p>
+<p>□ 19 - Coque de rétroviseur (gauche)</p>
+<p>□ 20 - Coque de rétroviseur (droite)</p>
+<p>□ 21 - Jante (AVD)</p>
+<p>□ 22 - Jante (AVG)</p>
+<p>□ 23 - Jante (ARG)</p>
+<p>□ 24 - Jante (ARD)</p>
+<p><strong>Observation :</strong></p>
+<textarea placeholder="Écrire une observation..." rows={4} style={{ width: '100%' }} />
+
 </div>
 
 <div className="card">
