@@ -20,7 +20,7 @@ useEffect(() => {
 async function loadVehicles() {
 const { data } = await supabase
 .from('vehicles')
-.select('id, plate, brand, model, status'), arrival_date
+.select('id, plate, brand, model, status, arrival_date')
 
 setVehicles(data || [])
 setLoading(false)
