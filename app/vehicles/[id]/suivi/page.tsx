@@ -53,6 +53,14 @@ const updatedData = {
 ...suiviData,
 [key]: value,
 }
+    setSuiviData(updatedData)
+
+await supabase
+.from('vehicles')
+.update({ suivi_data: updatedData })
+.eq('id', id)
+}
+
 
 if (loading) return <div className="main">Chargement...</div>
 if (!vehicle) return <div className="main">Véhicule introuvable.</div>
