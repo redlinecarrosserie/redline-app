@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 
-type Vehicle = {
+type Vehicle = {status: string
 id: string
 plate: string
 brand: string | null
@@ -20,7 +20,7 @@ useEffect(() => {
 async function loadVehicles() {
 const { data } = await supabase
 .from('vehicles')
-.select('id, plate, brand, model, status')
+.select('id, plate, brand, model, status'), arrival_date
 
 setVehicles(data || [])
 setLoading(false)
@@ -106,7 +106,11 @@ return (
 </td>
 <td>{vehicle.brand} {vehicle.model}</td>
 <td>
-<span className="badge red">{vehicle.status}</span>
+<span className="badge red">
+  {vehicle.status === 'À venir' && vehicle.arrival_date
+    ? `À venir le ${new Date(vehicle.arrival_date).toLocaleDateString('fr-FR')}`
+    : vehicle.status}
+</span>
 </td>
 </tr>
 ))}
