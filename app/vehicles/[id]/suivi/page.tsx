@@ -83,7 +83,7 @@ return (
 </div>
 
 <div className="card">
-  <img src="/unnamed.jpg" alt="Schéma véhicule" />
+
 
   <img
 src="/unnamed.jpg"
