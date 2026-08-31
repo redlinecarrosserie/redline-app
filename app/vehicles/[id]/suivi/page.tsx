@@ -10,7 +10,8 @@ const params = useParams()
 const id = params.id as string
 
 const [vehicle, setVehicle] = useState<any>(null)
-  const [schemaZones, setSchemaZones] = useState<number[]>([])
+  const [schemaZones, setSchemaZones] = useState<{ number: number; x: number; y: number }[]>([])
+
 const [loading, setLoading] = useState(true)
 
 useEffect(() => {
@@ -28,10 +29,12 @@ setLoading(false)
 
 loadVehicle()
 }, [id])
-async function toggleSchemaZone(zone: number) {
-const updatedZones = schemaZones.includes(zone)
-? schemaZones.filter((z) => z !== zone)
-: [...schemaZones, zone]
+async function toggleSchemaZone(zone: number, x: number, y: number) {
+const exists = schemaZones.some((z) => z.number === zone)
+
+const updatedZones = exists
+? schemaZones.filter((z) => z.number !== zone)
+: [...schemaZones, { number: zone, x, y }]
 
 setSchemaZones(updatedZones)
 
@@ -40,6 +43,7 @@ await supabase
 .update({ schema_zones: updatedZones })
 .eq('id', id)
 }
+
 
 if (loading) return <div className="main">Chargement...</div>
 if (!vehicle) return <div className="main">Véhicule introuvable.</div>
