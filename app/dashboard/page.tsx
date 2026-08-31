@@ -4,12 +4,14 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 
-type Vehicle = {status: string
+type Vehicle = {
 id: string
 plate: string
 brand: string | null
 model: string | null
 status: string
+  arrival_date: string | null
+
 }
 
 export default function Dashboard() {
