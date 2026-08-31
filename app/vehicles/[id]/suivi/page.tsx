@@ -90,10 +90,17 @@ return (
 
 
 <div style={{ position: 'relative', width: '100%', maxWidth: '900px', marginBottom: '20px' }}>
+
 <img
 src="/unnamed.jpg"
 alt="Schéma véhicule"
 style={{ width: '100%', display: 'block' }}
+  onClick={(e) => {
+const rect = e.currentTarget.getBoundingClientRect()
+const x = ((e.clientX - rect.left) / rect.width) * 100
+const y = ((e.clientY - rect.top) / rect.height) * 100
+toggleSchemaZone(schemaZones.length + 1, x, y)
+}}
 />
  
 
