@@ -102,7 +102,30 @@ const y = ((e.clientY - rect.top) / rect.height) * 100
 toggleSchemaZone(schemaZones.length + 1, x, y)
 }}
 />
- 
+ {schemaZones.map((zone) => (
+<div
+key={zone.number}
+style={{
+position: 'absolute',
+left: `${zone.x}%`,
+top: `${zone.y}%`,
+transform: 'translate(-50%, -50%)',
+width: '28px',
+height: '28px',
+borderRadius: '50%',
+background: 'red',
+color: 'white',
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'center',
+fontWeight: 'bold',
+pointerEvents: 'none',
+}}
+>
+{zone.number}
+</div>
+))}
+
 
 </div>
 
