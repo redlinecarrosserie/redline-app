@@ -85,11 +85,14 @@ return (
 <div className="card">
 
 
-  <img
+<div style={{ position: 'relative', width: '100%', maxWidth: '900px', marginBottom: '20px' }}>
+<img
 src="/unnamed.jpg"
 alt="Schéma véhicule"
-style={{ width: '100%', maxWidth: '900px', display: 'block', marginBottom: '20px' }}
+style={{ width: '100%', display: 'block' }}
 />
+</div>
+
 <h2>Croquis véhicule — Zones à réparer</h2>
 <p>☐ 1 — Capot</p>
 <p>☐ 2 — Pare-chocs avant</p>
