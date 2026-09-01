@@ -100,20 +100,48 @@ return (
 <h1>Fiche de suivi véhicule</h1>
 
 <h2>Identification</h2>
-<p><strong>Nom et prénom :</strong> {vehicle.client_name || '-'}</p>
-  <p><strong>Mail :</strong> {vehicle.email || '-'}</p>
-  <p><strong>Adresse du client :</strong> {vehicle.client_address || '-'}</p>
 
-  <p><strong>Cabinet d’expertise :</strong> {vehicle.expertise_cabinet || '-'}</p>
+{[
+['client_name', 'Nom et prénom'],
+['email', 'Mail'],
+['client_address', 'Adresse du client'],
+['expertise_cabinet', "Cabinet d’expertise"],
+['phone', 'Téléphone'],
+['brand', 'Marque'],
+['model', 'Modèle'],
+['plate', 'Immatriculation'],
+['mileage', 'Kilométrage'],
+['entry_date', "Date d’entrée"],
+['exit_date', 'Date sortie'],
+['insurance', 'Assurance'],
+['claim_number', 'N° sinistre'],
+].map(([key, label]) => (
+<label key={key} style={{ display: 'block', marginBottom: '10px' }}>
+<strong>{label} :</strong>
+<input
+value={vehicle[key] || ''}
+onChange={(e) =>
+setVehicle({
+...vehicle,
+[key]: e.target.value,
+})
+}
+onBlur={async (e) => {
+await supabase
+.from('vehicles')
+.update({ [key]: e.target.value })
+.eq('id', id)
+}}
+style={{
+width: '100%',
+padding: '8px',
+marginTop: '4px',
+boxSizing: 'border-box',
+}}
+/>
+</label>
+))}
 
-<p><strong>Téléphone :</strong> {vehicle.phone || '-'}</p>
-<p><strong>Véhicule :</strong> {vehicle.brand} {vehicle.model}</p>
-<p><strong>Immatriculation :</strong> {vehicle.plate}</p>
-<p><strong>Kilométrage :</strong> {vehicle.mileage || '-'}</p>
-<p><strong>Date entrée :</strong> {vehicle.entry_date || '-'}</p>
-<p><strong>Date sortie :</strong> {vehicle.exit_date || '-'}</p>
-<p><strong>Assurance :</strong> {vehicle.insurance || '-'}</p>
-<p><strong>N° sinistre :</strong> {vehicle.claim_number || '-'}</p>
 </div>
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
