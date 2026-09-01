@@ -226,8 +226,75 @@ style={{ width: '100%' }}
 
 <div className="card">
 <h2>Pièces commandées</h2>
-<p>Désignation — Fournisseur — Commandé le — Livraison prévue — Reçu le</p>
+
+<table className="table">
+<thead>
+<tr>
+<th>Pièce</th>
+<th>Fournisseur</th>
+<th>Référence</th>
+<th>Commandé le</th>
+<th>Livraison prévue</th>
+<th>Reçu</th>
+</tr>
+</thead>
+
+<tbody>
+{[1, 2, 3, 4, 5].map((ligne) => (
+<tr key={ligne}>
+<td>
+<input
+type="text"
+value={suiviData[`piece_${ligne}_nom`] || ''}
+onChange={(e) => updateSuiviData(`piece_${ligne}_nom`, e.target.value)}
+/>
+</td>
+
+<td>
+<input
+type="text"
+value={suiviData[`piece_${ligne}_fournisseur`] || ''}
+onChange={(e) => updateSuiviData(`piece_${ligne}_fournisseur`, e.target.value)}
+/>
+</td>
+
+<td>
+<input
+type="text"
+value={suiviData[`piece_${ligne}_reference`] || ''}
+onChange={(e) => updateSuiviData(`piece_${ligne}_reference`, e.target.value)}
+/>
+</td>
+
+<td>
+<input
+type="date"
+value={suiviData[`piece_${ligne}_commande`] || ''}
+onChange={(e) => updateSuiviData(`piece_${ligne}_commande`, e.target.value)}
+/>
+</td>
+
+<td>
+<input
+type="date"
+value={suiviData[`piece_${ligne}_livraison`] || ''}
+onChange={(e) => updateSuiviData(`piece_${ligne}_livraison`, e.target.value)}
+/>
+</td>
+
+<td>
+<input
+type="checkbox"
+checked={!!suiviData[`piece_${ligne}_recue`]}
+onChange={(e) => updateSuiviData(`piece_${ligne}_recue`, e.target.checked)}
+/>
+</td>
+</tr>
+))}
+</tbody>
+</table>
 </div>
+
 
 
 <div className="card">
