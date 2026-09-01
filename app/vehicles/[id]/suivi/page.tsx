@@ -162,6 +162,7 @@ files.forEach((file) => uploadVehiclePhoto(file))
 />
 
 </div>
+  </div>
 
 <div className="card">
 
