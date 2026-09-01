@@ -186,52 +186,7 @@ Date d'entrée
 </label>
 </div>
 
-<h2>Travaux à effectuer</h2>
-{tasks.map((task, i) => (
-<div className="task-row" key={i}>
-<input
-placeholder="Zone"
-value={task.zone}
-onChange={e =>
-updateTask(i, 'zone', e.target.value)
-}
-/>
 
-<input
-placeholder="Travail"
-value={task.work}
-onChange={e =>
-updateTask(i, 'work', e.target.value)
-}
-/>
-
-<select
-value={task.priority}
-onChange={e =>
-updateTask(i, 'priority', e.target.value)
-}
->
-<option>Haute</option>
-<option>Moyenne</option>
-<option>Basse</option>
-</select>
-<button
-type="button"
-className="btn"
-onClick={() => removeTask(i)}
->
-Supprimer
-</button>
-</div>
-))}
-
-<button
-type="button"
-className="btn"
-onClick={addTask}
->
-+ Ajouter
-</button>
 <button
 type="submit"
 className="btn btn-primary"
