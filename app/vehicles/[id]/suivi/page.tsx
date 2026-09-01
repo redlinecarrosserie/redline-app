@@ -160,6 +160,12 @@ const files = Array.from(e.target.files || [])
 files.forEach((file) => uploadVehiclePhoto(file))
 }}
 />
+    {uploadingPhoto && <p>Envoi de la photo...</p>}
+    {suiviData.photos?.map((photo: string, index: number) => (
+<a key={index} href={photo} target="_blank" rel="noopener noreferrer">
+<img src={photo} alt={`Photo ${index + 1}`} style={{ width: '150px', margin: '10px', cursor: 'pointer' }} />
+</a>
+))}
 
 </div>
   </div>
