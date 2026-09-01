@@ -66,7 +66,7 @@ setUploadingPhoto(true)
 const fileName = `${id}/${Date.now()}-${file.name}`
 
 const { error } = await supabase.storage
-.from('vehicle-photos')
+.from('vehicle_photos')
 .upload(fileName, file)
 
 if (error) {
@@ -76,7 +76,7 @@ return
 }
 
 const { data } = supabase.storage
-.from('vehicle-photos')
+.from('vehicle_photos')
 .getPublicUrl(fileName)
 
 const photos = [...(suiviData.photos || []), data.publicUrl]
