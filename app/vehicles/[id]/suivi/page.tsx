@@ -12,7 +12,7 @@ const id = params.id as string
 const [vehicle, setVehicle] = useState<any>(null)
   const [schemaZones, setSchemaZones] = useState<{ number: number; x: number; y: number }[]>([])
   const [suiviData, setSuiviData] = useState<any>({})
-
+const [uploadingPhoto, setUploadingPhoto] = useState(false)
 
 const [loading, setLoading] = useState(true)
 
@@ -60,6 +60,31 @@ await supabase
 .update({ suivi_data: updatedData })
 .eq('id', id)
 }
+  async function uploadVehiclePhoto(file: File) {
+setUploadingPhoto(true)
+
+const fileName = `${id}/${Date.now()}-${file.name}`
+
+const { error } = await supabase.storage
+.from('vehicle-photos')
+.upload(fileName, file)
+
+if (error) {
+alert('Erreur pendant l’envoi de la photo')
+setUploadingPhoto(false)
+return
+}
+
+const { data } = supabase.storage
+.from('vehicle-photos')
+.getPublicUrl(fileName)
+
+const photos = [...(suiviData.photos || []), data.publicUrl]
+await updateSuiviData('photos', photos)
+
+setUploadingPhoto(false)
+}
+
 
 
 if (loading) return <div className="main">Chargement...</div>
@@ -91,7 +116,8 @@ return (
 <p><strong>N° sinistre :</strong> {vehicle.claim_number || '-'}</p>
 </div>
 
-<div className="card">
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+  <div className="card">
 <h2>État à l’arrivée</h2>
 {[
 ['carrosserie', 'Carrosserie OK'],
@@ -121,6 +147,19 @@ style={{ width: '100%' }}
 />
 
 
+
+</div>
+  <div className="card">
+<h2>Photos du véhicule</h2>
+    <input
+type="file"
+accept="image/*"
+multiple
+onChange={(e) => {
+const files = Array.from(e.target.files || [])
+files.forEach((file) => uploadVehiclePhoto(file))
+}}
+/>
 
 </div>
 
