@@ -17,6 +17,7 @@ status: string
 export default function Dashboard() {
 const [vehicles, setVehicles] = useState<Vehicle[]>([])
 const [loading, setLoading] = useState(true)
+ const [selectedStatus, setSelectedStatus] = useState<string | null>(null) 
 
 useEffect(() => {
 async function loadVehicles() {
@@ -35,6 +36,7 @@ const waiting = vehicles.filter(v => v.status === 'En attente').length
 const inProgress = vehicles.filter(v => v.status === 'En cours').length
 const painting = vehicles.filter(v => v.status === 'En peinture').length
 const finished = vehicles.filter(v => v.status === 'Terminé').length
+ const upcoming = vehicles.filter(v => v.status === 'À venir').length 
 return (
 <div className="shell">
 <aside className="sidebar">
@@ -60,6 +62,10 @@ return (
 </div>
 
 <div className="cards">
+  <div className="card" onClick={() => setSelectedStatus('À venir')} style={{ cursor: 'pointer' }}>
+<div className="metric">{upcoming}</div>
+<div className="muted">À venir</div>
+</div>
 <div className="card">
 <div className="metric">{waiting}</div>
 <div className="muted">En attente</div>
