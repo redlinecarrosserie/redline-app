@@ -66,27 +66,47 @@ return (
 <div className="metric">{upcoming}</div>
 <div className="muted">À venir</div>
 </div>
-<div className="card">
+<div className="card" onClick={() => setSelectedStatus('En attente')} style={{ cursor: 'pointer' }}>
 <div className="metric">{waiting}</div>
 <div className="muted">En attente</div>
 </div>
 
-<div className="card">
+<div className="card" onClick={() => setSelectedStatus('En cours')} style={{ cursor: 'pointer' }}>
 <div className="metric">{inProgress}</div>
 <div className="muted">En cours</div>
 </div>
 
-<div className="card">
+<div className="card" onClick={() => setSelectedStatus('En peinture')} style={{ cursor: 'pointer' }}>
 <div className="metric">{painting}</div>
 <div className="muted">En peinture</div>
 </div>
 
-<div className="card">
+<div className="card" onClick={() => setSelectedStatus('Terminé')} style={{ cursor: 'pointer' }}>
 <div className="metric">{finished}</div>
 <div className="muted">Terminés</div>
 </div>
 </div>
 
+ {selectedStatus && (
+<div className="card">
+<h2>Véhicules — {selectedStatus}</h2>
+
+{vehicles.filter(v => v.status === selectedStatus).length === 0 ? (
+<p>Aucun véhicule</p>
+) : (
+vehicles
+.filter(v => v.status === selectedStatus)
+.map(v => (
+<div key={v.id}>
+<Link href={`/vehicles/${v.id}`}>
+<strong>{v.plate}</strong>
+</Link>
+</div>
+))
+)}
+</div>
+)}
+ 
 <div className="card">
 <h2>Véhicules</h2>
 
